@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import yaml
+import json
 from datetime import datetime
 
 url = "https://www.habous.gov.ma/prieres/horaire_hijri_2.php?ville=105"
@@ -14,7 +14,7 @@ prayer_times = []
 
 now = datetime.now()
 year = now.year
-start_month = now.month - 1 if now.day < 5 else now.month  # Assume it starts in previous month if early in month
+start_month = now.month - 1 if now.day < 5 else now.month
 current_month = start_month
 previous_day = 0
 
@@ -31,7 +31,6 @@ for row in rows:
     except ValueError:
         continue
 
-    # Handle month rollover (from 30 → 1)
     if previous_day and day_num < previous_day:
         current_month += 1
         if current_month > 12:
@@ -63,8 +62,8 @@ for row in rows:
         "isha": isha
     })
 
-# Save to YAML
-with open("prayer_times.yaml", "w", encoding="utf-8") as f:
-    yaml.dump({"prayer_times": prayer_times}, f, allow_unicode=True)
+# Save to JSON
+with open("prayer_times.json", "w", encoding="utf-8") as f:
+    json.dump({"prayer_times": prayer_times}, f, ensure_ascii=False, indent=2)
 
-print("Prayer times saved to prayer_times.yaml")
+print("Prayer times saved to prayer_times.json")
