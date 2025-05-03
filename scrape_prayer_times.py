@@ -1,9 +1,18 @@
+import os
+from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 
-url = "https://www.habous.gov.ma/prieres/horaire_hijri_2.php?ville=105"
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Fetch the city ID from environment variables
+city_id = os.getenv("CITY_ID", "1")  # Default to 1 if not set
+
+url = f"https://www.habous.gov.ma/prieres/horaire_hijri_2.php?ville={city_id}"
 response = requests.get(url, verify=False)
 soup = BeautifulSoup(response.content, "html.parser")
 
