@@ -1,11 +1,11 @@
-version: "3.8"
+version: '3.8'
 
 services:
   prayer-scraper:
-    build: .
+    image: prayertimes:latest
+    container_name: prayer-scraper
+    ports:
+      - "5002:5002"
     environment:
-      - CITY_ID=${CITY_ID}
-    volumes:
-      - .:/app
-    working_dir: /app
-    command: python3 scrape_prayer_times.py
+      - CITY_ID=1
+    restart: unless-stopped
