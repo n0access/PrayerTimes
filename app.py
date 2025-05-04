@@ -1,6 +1,7 @@
 from flask import Flask, send_from_directory
 import os
-
+import subprocess
+subprocess.run(["python", "scrape_prayer_times.py"], check=True)
 app = Flask(__name__)
 
 @app.route('/prayer_times.json')
