@@ -10,7 +10,7 @@ from datetime import datetime
 load_dotenv()
 
 # Fetch the city ID from environment variables
-city_id = os.getenv("CITY_ID", "1")  # Default to 1 if not set
+city_id = os.getenv("CITY_ID", "105")  # Default to 1 if not set
 
 url = f"https://www.habous.gov.ma/prieres/horaire_hijri_2.php?ville={city_id}"
 response = requests.get(url, verify=False)
@@ -23,8 +23,10 @@ prayer_times = []
 
 now = datetime.now()
 year = now.year
-start_month = now.month - 1 if now.day < 5 else now.month
-current_month = start_month
+current_month = now.month - 1
+if current_month == 0:
+    current_month = 12
+    year -= 1
 previous_day = 0
 
 for row in rows:
